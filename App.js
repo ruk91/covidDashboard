@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  Dimensions,
 } from 'react-native';
 
 import {
@@ -24,6 +25,14 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import NetInfo from '@react-native-community/netinfo';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from 'react-native-chart-kit';
 
 class App extends PureComponent {
   constructor(props) {
@@ -53,8 +62,11 @@ class App extends PureComponent {
 
   _netConnectionHandler(connectionInfo) {
     console.log('connectionInfo: ', connectionInfo);
-    if (connectionInfo.type === 'none') this.setState({offline: true});
-    else this.setState({offline: false});
+    if (connectionInfo.type === 'none') {
+      this.setState({offline: true});
+    } else {
+      this.setState({offline: false});
+    }
   }
 
   render() {
@@ -65,39 +77,59 @@ class App extends PureComponent {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
-            <Header />
-            {global.HermesInternal == null ? null : (
-              <View style={styles.engine}>
-                <Text style={styles.footer}>Engine: Hermes</Text>
-              </View>
-            )}
             <View style={styles.body}>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Step One</Text>
-                <Text style={styles.sectionDescription}>
-                  Edit <Text style={styles.highlight}>App.js</Text> to change
-                  this this screen and then come back to see your edits.
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>See Your Changes</Text>
-                <Text style={styles.sectionDescription}>
-                  <ReloadInstructions />
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Debug</Text>
-                <Text style={styles.sectionDescription}>
-                  <DebugInstructions />
-                </Text>
-              </View>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Learn More</Text>
-                <Text style={styles.sectionDescription}>
-                  Read the docs to discover what to do next:
-                </Text>
-              </View>
-              <LearnMoreLinks />
+              <Text>Bezier Line Chart</Text>
+              <LineChart
+                data={{
+                  labels: [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                  ],
+                  datasets: [
+                    {
+                      data: [
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                      ],
+                    },
+                  ],
+                }}
+                width={Dimensions.get('window').width} // from react-native
+                height={220}
+                yAxisLabel="$"
+                yAxisSuffix="k"
+                yAxisInterval={1} // optional, defaults to 1
+                chartConfig={{
+                  backgroundColor: '#e26a00',
+                  backgroundGradientFrom: '#fb8c00',
+                  backgroundGradientTo: '#ffa726',
+                  decimalPlaces: 2, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 1) =>
+                    `rgba(255, 255, 255, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                  },
+                  propsForDots: {
+                    r: '6',
+                    strokeWidth: '2',
+                    stroke: '#ffa726',
+                  },
+                }}
+                bezier
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 16,
+                }}
+              />
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -110,38 +142,8 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
   body: {
     backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
   },
 });
 
