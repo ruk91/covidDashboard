@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {PureComponent} from 'react';
+import React, {Fragment, PureComponent} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,24 +16,13 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {createStore} from 'redux';
+import {Provider, useSelector} from 'react-redux';
+// import allReducers from './src/reducers';
 import NetInfo from '@react-native-community/netinfo';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from 'react-native-chart-kit';
+// import AppNavigation from './src/navigation';
 
+// const store = createStore(allReducers);
 class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -42,14 +31,6 @@ class App extends PureComponent {
   }
 
   componentDidMount() {
-    // Net info get initial state
-    // NetInfo.getConnectionInfo().then((connectionInfo) =>
-    //   this._netConnectionHandler(connectionInfo),
-    // );
-    // this.netInfoSubscription = NetInfo.addEventListener(
-    //   'connectionChange',
-    //   this._netConnectionHandler,
-    // );
     NetInfo.fetch().then((state) => {
       console.log('state:', state);
       console.log('Is connected?', state.isConnected);
@@ -70,81 +51,28 @@ class App extends PureComponent {
   }
 
   render() {
+    // const counter = useSelector((state) => state.counter);
     return (
-      <>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-            <View style={styles.body}>
-              <Text>Bezier Line Chart</Text>
-              <LineChart
-                data={{
-                  labels: [
-                    'January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                  ],
-                  datasets: [
-                    {
-                      data: [
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                      ],
-                    },
-                  ],
-                }}
-                width={Dimensions.get('window').width} // from react-native
-                height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
-                yAxisInterval={1} // optional, defaults to 1
-                chartConfig={{
-                  backgroundColor: '#e26a00',
-                  backgroundGradientFrom: '#fb8c00',
-                  backgroundGradientTo: '#ffa726',
-                  decimalPlaces: 2, // optional, defaults to 2dp
-                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                  labelColor: (opacity = 1) =>
-                    `rgba(255, 255, 255, ${opacity})`,
-                  style: {
-                    borderRadius: 16,
-                  },
-                  propsForDots: {
-                    r: '6',
-                    strokeWidth: '2',
-                    stroke: '#ffa726',
-                  },
-                }}
-                bezier
-                style={{
-                  marginVertical: 8,
-                  borderRadius: 16,
-                }}
-              />
-            </View>
-          </ScrollView>
-        </SafeAreaView>
-      </>
+      <View>
+        <Text>testing...</Text>
+      </View>
+      // <Provider store={store}>
+      //   <Fragment>
+      //     <StatusBar backgroudColor={'#000'} barStyle="light-content" />
+      //     <AppNavigation />
+      //   </Fragment>
+      // </Provider>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
+  // scrollView: {
+  //   backgroundColor: Colors.lighter,
+  // },
+  // body: {
+  //   backgroundColor: Colors.white,
+  // },
 });
 
 export default App;
